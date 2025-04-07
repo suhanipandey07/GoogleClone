@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Clone</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px;
+    }
+    
+    nav a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: #000;
+      font-size: 13px;
+    }
+    
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 100px;
+    }
+    
+    .logo {
+      font-size: 90px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #4285f4;
+    }
+    
+    .logo span:nth-child(1) { color: #4285f4; }
+    .logo span:nth-child(2) { color: #ea4335; }
+    .logo span:nth-child(3) { color: #fbbc05; }
+    .logo span:nth-child(4) { color: #4285f4; }
+    .logo span:nth-child(5) { color: #34a853; }
+    .logo span:nth-child(6) { color: #ea4335; }
+    
+    .search-container {
+      width: 580px;
+      max-width: 90%;
+    }
+    
+    .search-box {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      border: 1px solid #dfe1e5;
+      border-radius: 24px;
+      padding: 0 15px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .search-box:hover {
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+      border-color: rgba(223, 225, 229, 0);
+    }
+    
+    .search-input {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      height: 34px;
+      font-size: 16px;
+    }
+    
+    .search-icon, .mic-icon {
+      width: 20px;
+      height: 20px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .search-button {
+      background-color: #f8f9fa;
+      border: 1px solid #f8f9fa;
+      border-radius: 4px;
+      color: #3c4043;
+      font-size: 14px;
+      height: 36px;
+      min-width: 54px;
+      padding: 0 16px;
+      cursor: pointer;
+    }
+    
+    .search-button:hover {
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #dadce0;
+    }
+    
+    footer {
+      background-color: #f2f2f2;
+      padding: 15px;
+      border-top: 1px solid #e4e4e4;
+      margin-top: auto;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    
+    .footer-links a {
+      color: #70757a;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+    
+    .search-results {
+      width: 580px;
+      max-width: 90%;
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .result {
+      margin-bottom: 20px;
+    }
+    
+    .result-url {
+      color: #006621;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    
+    .result-title {
+      color: #1a0dab;
+      font-size: 18px;
+      margin: 0;
+      text-decoration: none;
+    }
+    
+    .result-snippet {
+      color: #545454;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#">Gmail</a>
+    <a href="#">Images</a>
+  </nav>
+  
+  <div class="main">
+    <div class="logo">
+      <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+    </div>
+    
+    <div class="search-container">
+      <div class="search-box">
+        <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        </svg>
+        <input type="text" id="searchInput" class="search-input">
+        <svg class="mic-icon" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285f4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+          <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
+          <path fill="#fbbc05" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+          <path fill="#ea4335" d="m12 16.93a4.97 5.21 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
+        </svg>
+      </div>
+      
+      <div class="buttons">
+        <button class="search-button" id="searchButton">Google Search</button>
+        <button class="search-button">I'm Feeling Lucky</button>
+      </div>
+    </div>
+    
+    <div class="search-results" id="searchResults">
+      <!-- Search results will be displayed here -->
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-links">
+      <div>
+        <a href="#">About</a>
+        <a href="#">Advertising</a>
+        <a href="#">Business</a>
+        <a href="#">How Search works</a>
+      </div>
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Settings</a>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Example search results
+    const mockResults = [
+      {
+        title: "Example Website - Official Site",
+        url: "https://www.example.com/",
+        snippet: "Example description of the website that would appear in search results. This is just placeholder text to show how results would look."
+      },
+      {
+        title: "Sample Search Result - Learn More",
+        url: "https://www.samplesite.org/page",
+        snippet: "This is another example search result. In a real implementation, these would come from an actual search API rather than being hardcoded."
+      },
+      {
+        title: "What is a Search Engine? - Wikipedia",
+        url: "https://en.wikipedia.org/wiki/Search_engine",
+        snippet: "A search engine is a software system designed to carry out web searches. They search the World Wide Web in a systematic way for particular information specified in a query."
+      }
+    ];
+    
+    // Function to perform search
+    function performSearch() {
+      const query = document.getElementById('searchInput').value;
+      const resultsContainer = document.getElementById('searchResults');
+      
+      // Clear previous results
+      resultsContainer.innerHTML = '';
+      
+      if (query.trim() === '') {
+        resultsContainer.style.display = 'none';
+        return;
+      }
+      
+      // Display mock results
+      mockResults.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.className = 'result';
+        
+        resultElement.innerHTML = `
+          <div class="result-url">${result.url}</div>
+          <a href="#" class="result-title">${result.title}</a>
+          <div class="result-snippet">${result.snippet}</div>
+        `;
+        
+        resultsContainer.appendChild(resultElement);
+      });
+      
+      // Show results
+      resultsContainer.style.display = 'block';
+      
+      // Adjust main container
+      document.querySelector('.main').style.alignItems = 'flex-start';
+      document.querySelector('.main').style.marginTop = '30px';
+      document.querySelector('.logo').style.fontSize = '30px';
+      document.querySelector('.logo').style.marginBottom = '10px';
+    }
+    
+    // Event listeners
+    document.getElementById('searchButton').addEventListener('click', performSearch);
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  </script>
+</body>
+</html>
